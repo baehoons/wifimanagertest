@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/main"
+        app:showAsAction="always"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_transfer_within_a_station_black_24dp"
+        android:title="메인" />
+
+    <item
+        android:id="@+id/result"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_content_paste_black_24dp"
+        android:title="통계" />
+
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/ic_settings_black_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="3"
+        android:title="설정" />
+</menu>

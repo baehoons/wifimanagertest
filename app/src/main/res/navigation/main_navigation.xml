@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.baehoons.wifimanagertest.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_controlFragment"
+            app:destination="@id/controlFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/controlFragment"
+        android:name="com.baehoons.wifimanagertest.ControlFragment"
+        android:label="ControlFragment" >
+        <action
+            android:id="@+id/action_controlFragment_to_wifiListFragment"
+            app:destination="@id/wifiListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/wifiListFragment"
+        android:name="com.baehoons.wifimanagertest.WifiListFragment"
+        android:label="WifiListFragment" >
+        <action
+            android:id="@+id/action_wifiListFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.baehoons.wifimanagertest.DetailFragment"
+        android:label="DetailFragment" >
+        <action
+            android:id="@+id/action_detailFragment_to_controlFragment"
+            app:destination="@id/controlFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.baehoons.wifimanagertest.ResultFragment"
+        android:label="ResultFragment" />
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.baehoons.wifimanagertest.SettingFragment"
+        android:label="SettingFragment" />
+
+</navigation>

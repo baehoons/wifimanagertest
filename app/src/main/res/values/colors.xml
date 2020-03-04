@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="myTextColor">#AFAFAF</color>
+    <color name="myTextColoadsr">#4C229B</color>
+    <color name="app_blue">#045CB1</color>
+
+    <color name="green_300">#81c784</color>
+    <color name="bar_background">#0B9788</color>
+    <color name="blue_grey_900">#263238</color>
+    <color name="blue_grey_800">#313F47</color>
+    <color name="green_400">#66bb6a</color>
+    <color name="blue_grey_500">#607d8b</color>
+    <color name="blue_grey_400">#78909c</color>
+    <color name="blue_grey_300">#90a4ae</color>
+
+    <color name="exersior_toolbar">#070A16</color>
+    <color name="exersior_dark">#121529</color>
+    <color name="exersior_dark_blue">#181F44</color>
+    <color name="exersior_blue">#1039D7</color>
+    <color name="exersior_red">#EE001E</color>
+    <color name="exersior_yellow">#F5FA55</color>
+    <color name="exersior_pink">#FBCDCF</color>
+    <color name="exersior_green">#BDEBE2</color>
+    <color name="exersior_slim_green">#CEE392</color>
+    <color name="exersior_logo_text">#8FCBD6</color>
+
+    <color name="jaksim_blue_900">#386385</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="off_white">#fffafafa</color>
+    <color name="main_color_gray">#7d7d7d</color>
+
+    <color name="default_bubble_color_rcv">@color/black</color>
+    <color name="default_bubble_color_send">@color/white</color>
+    <color name="default_tstamp_color_rcv">@color/off_white</color>
+    <color name="default_tstamp_color_send">@color/main_color_gray</color>
+    <color name="default_message_color_rcv">@color/white</color>
+    <color name="default_message_color_send">@color/black</color>
+</resources>
