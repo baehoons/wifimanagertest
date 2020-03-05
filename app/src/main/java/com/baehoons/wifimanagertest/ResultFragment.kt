@@ -8,6 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.fragment_result.*
+import kotlinx.android.synthetic.main.fragment_wifi_list.*
 
 
 class ResultFragment : Fragment() {
@@ -21,7 +25,13 @@ class ResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_control, container, false)
+        return inflater.inflate(R.layout.fragment_result, container, false)
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        button6.setOnClickListener {
+            findNavController().navigate(R.id.action_resultFragment_to_result_setFragment)
+        }
 
+    }
 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 
 import kotlinx.android.synthetic.main.fragment_main.button2
 
@@ -27,10 +28,9 @@ class ControlFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = Navigation.findNavController(view)
 
         button2.setOnClickListener {
-            navController!!.navigate(R.id.action_controlFragment_to_wifiListFragment)
+            findNavController().navigate(R.id.action_controlFragment_to_wifiListFragment)
         }
 
     }

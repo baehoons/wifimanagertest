@@ -2,21 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/main"
+        android:id="@+id/main_navigations"
         app:showAsAction="always"
         android:orderInCategory="1"
         android:icon="@drawable/ic_transfer_within_a_station_black_24dp"
         android:title="메인" />
 
     <item
-        android:id="@+id/result"
+        android:id="@+id/result_navigation"
         app:showAsAction="always"
         android:orderInCategory="2"
         android:icon="@drawable/ic_content_paste_black_24dp"
         android:title="통계" />
 
     <item
-        android:id="@+id/setting"
+        android:id="@+id/setting_navigation"
         android:icon="@drawable/ic_settings_black_24dp"
         app:showAsAction="always"
         android:orderInCategory="3"

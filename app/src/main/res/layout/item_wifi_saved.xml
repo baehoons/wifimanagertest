@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@android:color/background_light"
-        android:id="@+id/scan_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/saved_wifi"
         tools:layout_editor_absoluteY="81dp">
 
-
-
         <ImageView
-            android:layout_width="69dp"
-            android:layout_height="69dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/image_wifi"
-            android:src="@drawable/ic_wifi"
-             />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_wb_incandescent_black_24dp"
+            android:tint="@color/main_color_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/ssid"
@@ -40,7 +36,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textSize="22sp"
             app:layout_constraintBottom_toTopOf="@+id/signature"
-            app:layout_constraintStart_toEndOf="@+id/image_wifi"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="ssid" />
 
@@ -53,7 +49,7 @@
             android:text="신호세기: "
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_wifi"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ssid"
             tools:text="신호세기: " />
 

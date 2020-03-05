@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/setting_navigation"
+    app:startDestination="@id/settingFragment">
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.baehoons.wifimanagertest.SettingFragment"
+        android:label="SettingFragment" >
+        <action
+            android:id="@+id/action_settingFragment_to_setting_setFragment"
+            app:destination="@id/setting_setFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setting_setFragment"
+        android:name="com.baehoons.wifimanagertest.Setting_setFragment"
+        android:label="Setting_setFragment" />
+</navigation>
