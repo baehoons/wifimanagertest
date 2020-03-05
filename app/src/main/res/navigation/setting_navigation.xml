@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.baehoons.wifimanagertest.SettingFragment"
+        android:name="com.baehoons.wifimanagertest.view.setting.SettingFragment"
         android:label="SettingFragment" >
         <action
             android:id="@+id/action_settingFragment_to_setting_setFragment"
@@ -13,6 +13,6 @@
     </fragment>
     <fragment
         android:id="@+id/setting_setFragment"
-        android:name="com.baehoons.wifimanagertest.Setting_setFragment"
+        android:name="com.baehoons.wifimanagertest.view.setting.Setting_setFragment"
         android:label="Setting_setFragment" />
 </navigation>

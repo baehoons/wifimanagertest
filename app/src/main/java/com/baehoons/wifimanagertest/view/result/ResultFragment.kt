@@ -1,7 +1,5 @@
-package com.baehoons.wifimanagertest
+package com.baehoons.wifimanagertest.view.result
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.fragment_detail.*
+import com.baehoons.wifimanagertest.R
+import kotlinx.android.synthetic.main.fragment_result.*
 
 
-class DetailFragment : Fragment() {
+class ResultFragment : Fragment() {
     var navController: NavController?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,15 +22,13 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        return inflater.inflate(R.layout.fragment_result, container, false)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        button.setOnClickListener {
-            findNavController().popBackStack(R.id.wifiListFragment,true)
+        button6.setOnClickListener {
+            findNavController().navigate(R.id.action_resultFragment_to_result_setFragment)
         }
 
     }
-
 }

@@ -1,12 +1,11 @@
-package com.baehoons.wifimanagertest
+package com.baehoons.wifimanagertest.view.result
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.baehoons.wifimanagertest.R
 
 
 class Result_setFragment : Fragment() {

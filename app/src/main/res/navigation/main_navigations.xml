@@ -1,34 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_navigations"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigations"
     app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.baehoons.wifimanagertest.MainFragment"
-        android:label="MainFragment" >
+        android:name="com.baehoons.wifimanagertest.view.main.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_controlFragment"
             app:destination="@id/controlFragment" />
     </fragment>
     <fragment
         android:id="@+id/controlFragment"
-        android:name="com.baehoons.wifimanagertest.ControlFragment"
-        android:label="ControlFragment" >
+        android:name="com.baehoons.wifimanagertest.view.main.ControlFragment"
+        android:label="ControlFragment"
+        tools:layout="@layout/fragment_control">
         <action
             android:id="@+id/action_controlFragment_to_wifiListFragment"
             app:destination="@id/wifiListFragment" />
     </fragment>
     <fragment
         android:id="@+id/wifiListFragment"
-        android:name="com.baehoons.wifimanagertest.WifiListFragment"
-        android:label="WifiListFragment" >
+        android:name="com.baehoons.wifimanagertest.view.main.WifiListFragment"
+        android:label="WifiListFragment"
+        tools:layout="@layout/fragment_wifi_list">
         <action
             android:id="@+id/action_wifiListFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.baehoons.wifimanagertest.DetailFragment"
-        android:label="DetailFragment" />
+        android:name="com.baehoons.wifimanagertest.view.main.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="ssid"
+            android:defaultValue="null"
+            app:argType="string"/>
+        <argument
+            android:name="bssid"
+            android:defaultValue="null"
+            app:argType="string"/>
+        <argument
+            android:name="level"
+            android:defaultValue="null"
+            app:argType="string"/>
+        <argument
+            android:name="frequency"
+            android:defaultValue="null"
+            app:argType="string"/>
+        <argument
+            android:name="capabilities"
+            android:defaultValue="null"
+            app:argType="string"/>
+    </fragment>
 </navigation>

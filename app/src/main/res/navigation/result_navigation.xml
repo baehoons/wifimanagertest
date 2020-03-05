@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.baehoons.wifimanagertest.ResultFragment"
+        android:name="com.baehoons.wifimanagertest.view.result.ResultFragment"
         android:label="ResultFragment" >
         <action
             android:id="@+id/action_resultFragment_to_result_setFragment"
@@ -13,6 +13,6 @@
     </fragment>
     <fragment
         android:id="@+id/result_setFragment"
-        android:name="com.baehoons.wifimanagertest.Result_setFragment"
+        android:name="com.baehoons.wifimanagertest.view.result.Result_setFragment"
         android:label="Result_setFragment" />
 </navigation>

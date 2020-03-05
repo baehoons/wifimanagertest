@@ -1,4 +1,4 @@
-package com.baehoons.wifimanagertest
+package com.baehoons.wifimanagertest.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.baehoons.wifimanagertest.R
+import com.baehoons.wifimanagertest.utils.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +33,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNavigationBar() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
 
-        val navGraphIds = listOf(R.navigation.main_navigations, R.navigation.result_navigation, R.navigation.setting_navigation)
+        val navGraphIds = listOf(
+            R.navigation.main_navigations,
+            R.navigation.result_navigation,
+            R.navigation.setting_navigation
+        )
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = bottomNavigationView.setupWithNavController(
