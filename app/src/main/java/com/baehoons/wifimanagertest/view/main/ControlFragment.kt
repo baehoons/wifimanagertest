@@ -1,6 +1,7 @@
 package com.baehoons.wifimanagertest.view.main
 
 
+import android.net.wifi.ScanResult
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +10,18 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.baehoons.wifimanagertest.R
+import com.baehoons.wifimanagertest.data.Component
 
 import kotlinx.android.synthetic.main.fragment_main.button2
 
 class ControlFragment : Fragment() {
     var navController: NavController?=null
+
+    private var resultList = ArrayList<Component>()
+
+    companion object Mode{
+        lateinit var selectedComponent:ArrayList<Component>
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

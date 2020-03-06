@@ -1,14 +1,18 @@
 package com.baehoons.wifimanagertest.view.main
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.baehoons.wifimanagertest.R
+import com.baehoons.wifimanagertest.data.Component
+import com.baehoons.wifimanagertest.data.DatabaseClient
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,9 +59,38 @@ class DetailFragment : Fragment() {
         Log.d("joon", sdf.toString())
         Log.d("joon", times)
         button.setOnClickListener {
-            findNavController().popBackStack(R.id.wifiListFragment,true)
+            if(ssid!=null||bssid!=null){
+                Toast.makeText(activity,"올바르지 않은 와이파이 입니다",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                addNote(ssid,bssid)
+                findNavController().popBackStack(R.id.wifiListFragment,true)
+            }
+
         }
 
+    }
+    fun addNote(ssid:String,bssid:String){
+         class SaveTask : AsyncTask<Void, Void, Void>(){
+             override fun doInBackground(vararg params: Void?): Void? {
+                 val compo = Component()
+                 compo.ssid_w = ssid
+                 compo.bssid_w = bssid
+                 DatabaseClient.getInstance(activity!!.applicationContext)!!.appDatabase
+                     .componentDao()
+                     .insert(compo)
+
+                 return null
+             }
+
+             override fun onPostExecute(result: Void?) {
+                 super.onPostExecute(result)
+
+             }
+         }
+
+        val save = SaveTask()
+        save.execute()
     }
 
 }
