@@ -10,14 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.baehoons.wifimanagertest.R
 import com.baehoons.wifimanagertest.data.Component
 import kotlinx.android.synthetic.main.item_wifi_saved.view.*
-import com.baehoons.wifimanagertest.view.main.ControlFragment.Mode
-import com.baehoons.wifimanagertest.view.main.ControlFragment.Mode.selectedComponent
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_wifi_saved.view.signature
 import kotlinx.android.synthetic.main.item_wifi_saved.view.ssid_name
 import kotlinx.android.synthetic.main.item_wifi_scan.view.*
 
-class WifiSavedListAdapter(val context: Context, val components:List<Component>):RecyclerView.Adapter<WifiSavedListAdapter.DeviceHolder>(){
+class WifiSavedListAdapter:RecyclerView.Adapter<WifiSavedListAdapter.DeviceHolder>(){
 
     var onDeviceClickListener: ((Component) -> Unit)? = null
 
@@ -30,7 +28,7 @@ class WifiSavedListAdapter(val context: Context, val components:List<Component>)
                 ssid_name.text = scanResult.ssid_w
                 signature.text = "BSSID : "+scanResult.bssid_w
 
-                scan_item.setOnClickListener {
+                saved_wifi.setOnClickListener {
                     onDeviceClickListener.invoke(scanResult)
                 }
             }
@@ -51,10 +49,10 @@ class WifiSavedListAdapter(val context: Context, val components:List<Component>)
 
     }
 
-    fun addDevice(device: Component) {
+    fun addDevice(device: ArrayList<Component>) {
 
-        if(!devices.contains(device)){
-            devices.add(device)
+        if(!devices.containsAll(device)){
+            devices.addAll(device)
             notifyDataSetChanged()
         }
 

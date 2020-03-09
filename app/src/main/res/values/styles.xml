@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/exersior_pink</item>
     </style>
 
+    <style name="AlertDialog" parent="Base.ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/off_white</item>
+        <item name="android:colorAccent">#1b5e20</item>
+    </style>
 </resources>

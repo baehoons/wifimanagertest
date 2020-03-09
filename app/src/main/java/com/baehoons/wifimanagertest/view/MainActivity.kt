@@ -2,6 +2,9 @@ package com.baehoons.wifimanagertest.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -13,11 +16,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private var currentNavController: LiveData<NavController>? = null
-
+    private var backkeytime:Long = 0
+    lateinit var toast : Toast
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val alert_ex = AlertDialog.Builder(this)
+        alert_ex
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         } // Else, need to wait for onRestoreInstanceState
@@ -56,6 +62,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
+    }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backkeytime + 2000) {
+            backkeytime = System.currentTimeMillis()
+            toast = Toast.makeText(this, "나가려면 뒤로가기를 한번 더 누르세요", Toast.LENGTH_LONG)
+            toast.show()
+            return
+        }
+
+        if (System.currentTimeMillis() <= backkeytime + 2000) {
+            finish()
+            toast.cancel()
+        }
     }
 
 }

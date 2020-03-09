@@ -34,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:text="ssid"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textSize="22sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/signature"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
