@@ -10,6 +10,8 @@ class ComponentViewModel (application: Application) : AndroidViewModel(applicati
 
     private val repository = ComponentRepository(application)
     private val component = repository.getAll()
+    private val components_sel = repository.getselected()
+    private val components_unsel = repository.getunselected()
 
     fun getAll():LiveData<List<Component>>{
         return this.component
@@ -25,5 +27,21 @@ class ComponentViewModel (application: Application) : AndroidViewModel(applicati
 
     fun deleteAll(){
         repository.deleteAll()
+    }
+
+    fun getselected():LiveData<List<Component>>{
+        return this.components_sel
+    }
+
+    fun getunselected():LiveData<List<Component>>{
+        return this.components_unsel
+    }
+
+    fun setselected(component: String){
+        repository.setselected(component)
+    }
+
+    fun setunselected(state:Boolean){
+        repository.setunselected(state)
     }
 }

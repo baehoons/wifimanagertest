@@ -27,14 +27,34 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/button_scan"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_wifi_scan" />
+            tools:listitem="@layout/item_wifi_scan">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toTopOf="@id/button_scan"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_wifi_scan" />
+
+            <TextView
+                android:id="@+id/scan_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="검색 버튼으로 와이파이 리스트 검색을 시작하세요"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/app_blue"
+                android:textSize="24sp" />
+
+        </FrameLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

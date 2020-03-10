@@ -10,12 +10,13 @@ class Component : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id = 0
 
-    @ColumnInfo(name = "title")
+    @ColumnInfo(name = "ssid_s")
     var ssid_w: String? = null
 
-    @ColumnInfo(name = "note")
+    @ColumnInfo(name = "bssid_s")
     var bssid_w: String? = null
 
-    var isSelected = false
+    @ColumnInfo(name = "selected")
+    var selected = false
 
 }

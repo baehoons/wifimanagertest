@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/image_wifi"
+            android:id="@+id/image_wifis"
             android:src="@drawable/ic_wifi"
              />
 
@@ -40,7 +40,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textSize="22sp"
             app:layout_constraintBottom_toTopOf="@+id/signature"
-            app:layout_constraintStart_toEndOf="@+id/image_wifi"
+            app:layout_constraintStart_toEndOf="@+id/image_wifis"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="ssid" />
 
@@ -53,7 +53,7 @@
             android:text="신호세기: "
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_wifi"
+            app:layout_constraintStart_toEndOf="@+id/image_wifis"
             app:layout_constraintTop_toBottomOf="@+id/ssid_name"
             tools:text="신호세기: " />
 

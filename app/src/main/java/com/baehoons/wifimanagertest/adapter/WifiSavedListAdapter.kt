@@ -2,10 +2,12 @@ package com.baehoons.wifimanagertest.adapter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.net.wifi.ScanResult
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.baehoons.wifimanagertest.R
 import com.baehoons.wifimanagertest.data.Component
@@ -27,6 +29,12 @@ class WifiSavedListAdapter:RecyclerView.Adapter<WifiSavedListAdapter.DeviceHolde
 
                 ssid_name.text = scanResult.ssid_w
                 signature.text = "BSSID : "+scanResult.bssid_w
+                if(scanResult.selected==true){
+                    image_saved.setImageDrawable(resources.getDrawable(R.drawable.ic_wb_incandescent_active_24dp))
+                }
+                else{
+                    image_saved.setImageDrawable(resources.getDrawable(R.drawable.ic_wb_incandescent_black_24dp))
+                }
 
                 saved_wifi.setOnClickListener {
                     onDeviceClickListener.invoke(scanResult)

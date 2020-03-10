@@ -31,6 +31,7 @@ class ControlFragment : Fragment() {
     var navController: NavController?=null
     private var roomdb: AppDatabase?=null
     private var componentList = arrayListOf<Component>()
+    private var component_settingList = arrayListOf<Component>()
     private var deviceListAdapter: WifiSavedListAdapter = WifiSavedListAdapter().apply {
         onDeviceClickListener = {onDeviceClicked(it)}
     }
@@ -38,7 +39,32 @@ class ControlFragment : Fragment() {
 
 
     fun onDeviceClicked(device: Component){
-        Toast.makeText(activity,"ssid : ${device.ssid_w} , bssid: ${device.bssid_w}",Toast.LENGTH_LONG).show()
+        Toast.makeText(activity,"ssid : ${device.ssid_w} , bssid: ${device.bssid_w}, select: ${device.selected}",Toast.LENGTH_SHORT).show()
+        val builders = AlertDialog.Builder(ContextThemeWrapper(activity, R.style.AlertDialog))
+        builders.setTitle("메인 wifi")
+        builders.setMessage("해당 ${device.ssid_w} 로 기준 wifi로 설정하시겠습니까?")
+
+
+        builders.setPositiveButton("확인") { _, _ ->
+
+            componentViewModel.setunselected(true)
+
+            componentViewModel.setselected(device.bssid_w!!)
+            componentViewModel.getAll().observe(viewLifecycleOwner, Observer<List<Component>> { component ->
+                Log.d("allget",component.toString())
+                deviceListAdapter.clearDevices()
+                deviceListAdapter.addDevice(ArrayList(component))
+            })
+
+            saved_list.adapter = deviceListAdapter
+            saved_list.layoutManager = LinearLayoutManager(activity)
+        }
+        builders.setNegativeButton("취소") { _, _ ->
+
+        }
+
+        builders.show()
+
 
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,12 +85,27 @@ class ControlFragment : Fragment() {
 
 
         componentViewModel = ViewModelProviders.of(this).get(ComponentViewModel::class.java)
-        componentViewModel.getAll().observe(viewLifecycleOwner, Observer<List<Component>> { component ->
 
+        componentViewModel.getAll().observe(viewLifecycleOwner, Observer<List<Component>> { component ->
+            Log.d("allget",component.toString())
             deviceListAdapter.clearDevices()
             deviceListAdapter.addDevice(ArrayList(component))
+        })
+
+        componentViewModel.getselected().observe(viewLifecycleOwner, Observer<List<Component>>{component ->
+            Log.d("room_sel",(component).toString())
+            component_settingList.clear()
+            component_settingList.addAll(ArrayList(component))
+            Log.d("room_sel",(component_settingList).toString())
 
         })
+        componentViewModel.getunselected().observe(viewLifecycleOwner, Observer<List<Component>>{component ->
+            Log.d("room_unsel",(component).toString())
+            component_settingList.clear()
+            component_settingList.addAll(ArrayList(component))
+            Log.d("room_unsel",(component_settingList).toString())
+        })
+
         saved_list.adapter = deviceListAdapter
         saved_list.layoutManager = LinearLayoutManager(activity)
 

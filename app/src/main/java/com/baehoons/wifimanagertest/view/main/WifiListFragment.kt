@@ -15,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -88,7 +90,7 @@ class WifiListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         initWifi()
-
+        scan_text.visibility = View.VISIBLE
         button_scan.setOnClickListener {
             deviceListAdapter.clearDevices()
             managePermissions.checkPermissions()
@@ -96,6 +98,7 @@ class WifiListFragment : Fragment() {
                 Toast.makeText(activity, "와이파이가 연결되어 있지 않네요, 연결합니다.", Toast.LENGTH_LONG).show()
                 wifiManager.isWifiEnabled = true
             }
+            scan_text.visibility = View.INVISIBLE
             scanWifi()
         }
     }
