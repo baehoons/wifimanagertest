@@ -32,6 +32,8 @@ class DetailFragment : Fragment() {
     private val times = sdf.format(Date())
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ssid = arguments!!.getString("ssid").toString()
@@ -51,6 +53,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         ssid_name.text = ssid
         bssid_name.text = bssid
         level_name.text = level

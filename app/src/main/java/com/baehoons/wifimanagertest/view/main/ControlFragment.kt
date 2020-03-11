@@ -20,7 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.baehoons.wifimanagertest.R
 import com.baehoons.wifimanagertest.adapter.WifiSavedListAdapter
 import com.baehoons.wifimanagertest.data.AppDatabase
+import com.baehoons.wifimanagertest.data.Checkment
 import com.baehoons.wifimanagertest.data.Component
+import com.baehoons.wifimanagertest.viewmodel.CheckmentViewModel
 import com.baehoons.wifimanagertest.viewmodel.ComponentViewModel
 import kotlinx.android.synthetic.main.fragment_control.*
 
@@ -28,6 +30,7 @@ import java.lang.Exception
 
 class ControlFragment : Fragment() {
     private lateinit var componentViewModel: ComponentViewModel
+    private lateinit var checkmentViewModel: CheckmentViewModel
     var navController: NavController?=null
     private var roomdb: AppDatabase?=null
     private var componentList = arrayListOf<Component>()
@@ -44,7 +47,6 @@ class ControlFragment : Fragment() {
         builders.setTitle("메인 wifi")
         builders.setMessage("해당 ${device.ssid_w} 로 기준 wifi로 설정하시겠습니까?")
 
-
         builders.setPositiveButton("확인") { _, _ ->
 
             componentViewModel.setunselected(true)
@@ -58,14 +60,21 @@ class ControlFragment : Fragment() {
 
             saved_list.adapter = deviceListAdapter
             saved_list.layoutManager = LinearLayoutManager(activity)
+            checkmentViewModel.deleteAll()
+            val newCom = Checkment()
+            newCom.ssid_set = device.ssid_w
+            newCom.start_time=null
+            newCom.end_time=null
+            newCom.time_differ = 0
+            newCom.selected = true
+            checkmentViewModel.insert(newCom)
         }
         builders.setNegativeButton("취소") { _, _ ->
 
         }
 
         builders.show()
-
-
+        
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +92,7 @@ class ControlFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
+        checkmentViewModel = ViewModelProviders.of(this).get(CheckmentViewModel::class.java)
         componentViewModel = ViewModelProviders.of(this).get(ComponentViewModel::class.java)
 
         componentViewModel.getAll().observe(viewLifecycleOwner, Observer<List<Component>> { component ->
@@ -96,14 +105,12 @@ class ControlFragment : Fragment() {
             Log.d("room_sel",(component).toString())
             component_settingList.clear()
             component_settingList.addAll(ArrayList(component))
-            Log.d("room_sel",(component_settingList).toString())
 
         })
         componentViewModel.getunselected().observe(viewLifecycleOwner, Observer<List<Component>>{component ->
             Log.d("room_unsel",(component).toString())
             component_settingList.clear()
             component_settingList.addAll(ArrayList(component))
-            Log.d("room_unsel",(component_settingList).toString())
         })
 
         saved_list.adapter = deviceListAdapter
