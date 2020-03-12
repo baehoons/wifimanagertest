@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(Checkment::class), version = 1)
+@Database(entities = arrayOf(Checkment::class), version = 2)
 abstract class AppDatabase_c : RoomDatabase() {
     abstract fun checkmentDao(): CheckmentDao
 

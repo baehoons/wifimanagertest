@@ -20,7 +20,7 @@ class Checkment : Serializable {
     var end_time: String? = null
 
     @ColumnInfo(name = "time_differ")
-    var time_differ:Long = 0
+    var time_differ:String? = null
 
     @ColumnInfo(name = "selected")
     var selected = false

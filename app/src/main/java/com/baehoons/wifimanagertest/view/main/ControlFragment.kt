@@ -65,7 +65,7 @@ class ControlFragment : Fragment() {
             newCom.ssid_set = device.ssid_w
             newCom.start_time=null
             newCom.end_time=null
-            newCom.time_differ = 0
+            newCom.time_differ = null
             newCom.selected = true
             checkmentViewModel.insert(newCom)
         }
@@ -154,6 +154,7 @@ class ControlFragment : Fragment() {
                 deviceListAdapter.clearDevices()
                 componentList.clear()
                 componentViewModel.deleteAll()
+                checkmentViewModel.deleteAll()
                 updateview()
             }
             builder.setNegativeButton("취소") { _, _ ->

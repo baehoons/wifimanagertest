@@ -9,17 +9,16 @@ interface CheckmentDao {
     fun getAll(): LiveData<List<Checkment>>
 
     @Query("SELECT ssid_set FROM checkment WHERE selected = 1")
-    fun getselected_ch():String
+    fun getselected_ch():LiveData<String>
 
     @Query("SELECT start_time FROM checkment WHERE selected = 1")
-    fun getstart():String
+    fun getstart():LiveData<String>
 
     @Query("SELECT end_time FROM checkment WHERE selected = 1")
-    fun getend():String
+    fun getend():LiveData<String>
 
     @Query("SELECT time_differ FROM checkment WHERE selected = 1")
-    fun getdiffer():Long
-
+    fun getdiffer():LiveData<String>
 
     @Query("UPDATE checkment SET start_time = :starting_time WHERE selected = :state")
     fun setstarttime(starting_time:String, state:Boolean)
@@ -28,14 +27,7 @@ interface CheckmentDao {
     fun setendtime(ending_time:String, state:Boolean)
 
     @Query("UPDATE checkment SET time_differ = :timediffer WHERE selected = :state")
-    fun settimediffer(timediffer:Long, state:Boolean)
-
-//    @Query("UPDATE checkment SET selected = 1 WHERE ssid_set = :titles")
-//    fun setselected(titles: String)
-//
-//    @Query("UPDATE checkment SET selected = 0 WHERE selected = :state")
-//    fun setunselected(state: Boolean)
-
+    fun settimediffer(timediffer:String, state:Boolean)
 
     @Insert
     fun insert(checkment: Checkment)
