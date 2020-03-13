@@ -1,0 +1,19 @@
+일
+
+	android background
+		- asnyktask로 할지 rxjava로 하면 되는지 알아봐야함
+		- pause 상태와 종료 상태 구분
+		- https://github.com/brntsw/RxJavaInPractice
+		- https://github.com/SaiEmaniFlipp/BackgroundRxHelper
+
+	mvvm 패턴 
+		- base view 사용 여부 확인
+		- viewModel을 사용해서 기능 코드 부분을 넘겨야 할지 확인
+		- di 가 필요한지 koin 써야 하는지 
+		- 전체적으로 mvvm은 seach 프로젝트 참고
+
+	기타
+		- navigation 과 fragmnetmanager 비교 
+		- 전체적인 ui 분석 참고 (다른 프로젝트)
+	
+	
