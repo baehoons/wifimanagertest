@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainFragment_to_controlFragment"
             app:destination="@id/controlFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_checkingFragment"
+            app:destination="@id/checkingFragment" />
     </fragment>
     <fragment
         android:id="@+id/controlFragment"
@@ -58,4 +61,8 @@
             android:defaultValue="null"
             app:argType="string"/>
     </fragment>
+    <fragment
+        android:id="@+id/checkingFragment"
+        android:name="com.baehoons.wifimanagertest.view.main.CheckingFragment"
+        android:label="CheckingFragment" />
 </navigation>

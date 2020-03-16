@@ -78,20 +78,30 @@ class DetailFragment : Fragment() {
 
 
         button.setOnClickListener {
-            if(ssid==null||bssid==null){
-                Toast.makeText(activity,"올바르지 않은 와이파이 입니다",Toast.LENGTH_SHORT).show()
-            }
-            else{
-                val newCom = Component()
-                newCom.ssid_w = ssid
-                newCom.bssid_w = bssid
-                componentViewModel.insert(newCom)
-                findNavController().popBackStack(R.id.wifiListFragment,true)
+
+            componentViewModel.getselect_id().observe(viewLifecycleOwner, androidx.lifecycle.Observer<String>{ checkment->
+                if(checkment != ssid){
+                    if(ssid==null||bssid==null){
+                        Toast.makeText(activity,"올바르지 않은 와이파이 입니다",Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+
+                        val newCom = Component()
+                        newCom.ssid_w = ssid
+                        newCom.bssid_w = bssid
+                        componentViewModel.insert(newCom)
+                        findNavController().popBackStack(R.id.wifiListFragment,true)
 //                val thread = Thread(addr)
 //                thread.start()
 
+                    }
+                }
+                else{
+                    Toast.makeText(activity,"$ssid 는 이미 추가된 와이파이 입니다.",Toast.LENGTH_SHORT).show()
+                }
 
-            }
+            })
+
 
         }
 

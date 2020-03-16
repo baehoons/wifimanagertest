@@ -17,6 +17,10 @@ class CheckmentRepository (application: Application){
         return checkment
     }
 
+    fun id_boo():LiveData<Boolean>{
+        return checkmentDao.getselected_boo()
+    }
+
     fun getselect():LiveData<String>{
         return checkment_set
     }

@@ -17,6 +17,14 @@ class ComponentViewModel (application: Application) : AndroidViewModel(applicati
         return this.component
     }
 
+    fun getselect_id():LiveData<String>{
+        return this.repository.id_select()
+    }
+
+    fun getselect_boo():LiveData<Boolean>{
+        return this.repository.id_boo()
+    }
+
     fun insert(component: Component){
         repository.insert(component)
     }

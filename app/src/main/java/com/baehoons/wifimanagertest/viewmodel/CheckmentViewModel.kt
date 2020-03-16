@@ -20,6 +20,11 @@ class CheckmentViewModel (application: Application) : AndroidViewModel(applicati
         return this.checkment
     }
 
+    fun getselect_boo():LiveData<Boolean>{
+        return this.repositoies.id_boo()
+    }
+
+
     fun getselect():LiveData<String>{
         return this.checkment_get
     }

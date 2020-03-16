@@ -17,6 +17,14 @@ class ComponentRepository (application: Application){
         return component
     }
 
+    fun id_select():LiveData<String>{
+        return componentDao.getselected_id()
+    }
+
+    fun id_boo():LiveData<Boolean>{
+        return componentDao.getselected_boo()
+    }
+
     fun insert(component: Component){
         try{
             val thread = Thread(Runnable {

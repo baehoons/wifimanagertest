@@ -8,6 +8,9 @@ interface CheckmentDao {
     @Query("SELECT * FROM checkment")
     fun getAll(): LiveData<List<Checkment>>
 
+    @Query("SELECT selected FROM checkment")
+    fun getselected_boo():LiveData<Boolean>
+
     @Query("SELECT ssid_set FROM checkment WHERE selected = 1")
     fun getselected_ch():LiveData<String>
 

@@ -8,6 +8,12 @@ interface ComponentDao{
     @Query("SELECT * FROM component")
     fun getAll(): LiveData<List<Component>>
 
+    @Query("SELECT ssid_s FROM component")
+    fun getselected_id():LiveData<String>
+
+    @Query("SELECT selected FROM component")
+    fun getselected_boo():LiveData<Boolean>
+
     @Query("SELECT * FROM component WHERE selected = 1")
     fun getselected():LiveData<List<Component>>
 

@@ -1,7 +1,9 @@
 package com.baehoons.wifimanagertest.view.main
 
 
+import android.app.ProgressDialog
 import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.util.Log.d
@@ -38,17 +40,47 @@ class ControlFragment : Fragment() {
     private var deviceListAdapter: WifiSavedListAdapter = WifiSavedListAdapter().apply {
         onDeviceClickListener = {onDeviceClicked(it)}
     }
+    inner class CheckTypesTask : AsyncTask<Void,Void,Void>(){
+
+        val asyncDialog = ProgressDialog(context)
+        override fun onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+            asyncDialog.setMessage("변경중입니다..")
+
+            asyncDialog.show()
+            super.onPreExecute()
+
+        }
+        override fun doInBackground(vararg params: Void?): Void? {
+            try{
+                for(i in 1..5){
+                    asyncDialog.progress = i*30
+                    Thread.sleep(500)
+                }
+            }catch (e:InterruptedException){
+                e.printStackTrace()
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            asyncDialog.dismiss()
+            super.onPostExecute(result)
+        }
+
+
+    }
 
 
 
     fun onDeviceClicked(device: Component){
         Toast.makeText(activity,"ssid : ${device.ssid_w} , bssid: ${device.bssid_w}, select: ${device.selected}",Toast.LENGTH_SHORT).show()
         val builders = AlertDialog.Builder(ContextThemeWrapper(activity, R.style.AlertDialog))
-        builders.setTitle("메인 wifi")
-        builders.setMessage("해당 ${device.ssid_w} 로 기준 wifi로 설정하시겠습니까?")
+        builders.setTitle("${device.ssid_w} 로 기준 wifi로 설정")
+        builders.setMessage("기존 저장된 데이터는 모두 삭제 됩니다. 변경하시겠습니까?")
 
         builders.setPositiveButton("확인") { _, _ ->
-
+            checkmentViewModel.deleteAll()
             componentViewModel.setunselected(true)
 
             componentViewModel.setselected(device.bssid_w!!)
@@ -60,7 +92,7 @@ class ControlFragment : Fragment() {
 
             saved_list.adapter = deviceListAdapter
             saved_list.layoutManager = LinearLayoutManager(activity)
-            checkmentViewModel.deleteAll()
+
             val newCom = Checkment()
             newCom.ssid_set = device.ssid_w
             newCom.start_time=null
@@ -68,6 +100,12 @@ class ControlFragment : Fragment() {
             newCom.time_differ = null
             newCom.selected = true
             checkmentViewModel.insert(newCom)
+
+            val task = CheckTypesTask()
+            task.execute()
+
+
+
         }
         builders.setNegativeButton("취소") { _, _ ->
 

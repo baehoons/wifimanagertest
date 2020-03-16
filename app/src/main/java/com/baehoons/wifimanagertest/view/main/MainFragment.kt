@@ -165,23 +165,31 @@ class MainFragment : Fragment() {
         }
 
         checkingtime.setOnClickListener {
-            if (startings.text.toString() != "아직 출근을 안하였습니다." && endings.text.toString() != "아직 퇴근을 안하였습니다.") {
-                var started = (startings.text).toString().trim()
-                var ended = (endings.text).toString().trim()
-                val da = SimpleDateFormat("yyyyMMddHHmm")
-                var ff = "202003131350"
-                var date_s = da.parse(started)
-                var date_e = da.parse(ended)
+            checkmentViewModel.getselect().observe(viewLifecycleOwner, Observer<String> { checkment ->
+                if(checkment != null){
+                    if (startings.text.toString() != "아직 출근을 안하였습니다." && endings.text.toString() != "아직 퇴근을 안하였습니다.") {
+                        var started = (startings.text).toString().trim()
+                        var ended = (endings.text).toString().trim()
+                        val da = SimpleDateFormat("yyyyMMddHHmm")
+                        var ff = "202003131350"
+                        var date_s = da.parse(started)
+                        var date_e = da.parse(ended)
 
-                var diff = (date_e.time - date_s.time) / (60 * 1000)
-                var timede: String =
-                    (diff / 60).toString() + "시간 " + (diff % 60).toString() + "분"
-                Log.d("hhj_s", started)
-                Log.d("hh_f", diff.toString())
-                Log.d("hhj", timede)
-                checkmentViewModel.setdiffer(timede, true)//string을 date 형식으로 함수에 문제점이 있었음
-                status.text
-            }
+                        var diff = (date_e.time - date_s.time) / (60 * 1000)
+                        var timede: String =
+                            (diff / 60).toString() + "시간 " + (diff % 60).toString() + "분"
+                        Log.d("hhj_s", started)
+                        Log.d("hh_f", diff.toString())
+                        Log.d("hhj", timede)
+                        checkmentViewModel.setdiffer(timede, true)//string을 date 형식으로 함수에 문제점이 있었음
+                        status.text
+
+
+                    }
+                    findNavController().navigate(R.id.action_mainFragment_to_checkingFragment)
+                }
+            })
+
         }
     }
 }

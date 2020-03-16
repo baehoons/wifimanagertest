@@ -1,21 +1,20 @@
 package com.baehoons.wifimanagertest.adapter
 
-import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
-import android.net.wifi.ScanResult
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.baehoons.wifimanagertest.R
 import com.baehoons.wifimanagertest.data.Component
+import com.baehoons.wifimanagertest.viewmodel.CheckmentViewModel
+import com.baehoons.wifimanagertest.viewmodel.ComponentViewModel
 import kotlinx.android.synthetic.main.item_wifi_saved.view.*
-import kotlinx.android.synthetic.main.fragment_detail.view.*
-import kotlinx.android.synthetic.main.item_wifi_saved.view.signature
-import kotlinx.android.synthetic.main.item_wifi_saved.view.ssid_name
-import kotlinx.android.synthetic.main.item_wifi_scan.view.*
+
 
 class WifiSavedListAdapter:RecyclerView.Adapter<WifiSavedListAdapter.DeviceHolder>(){
 
@@ -29,11 +28,24 @@ class WifiSavedListAdapter:RecyclerView.Adapter<WifiSavedListAdapter.DeviceHolde
 
                 ssid_name.text = scanResult.ssid_w
                 signature.text = "BSSID : "+scanResult.bssid_w
+//                val context:Context = this.context
+//
+//                var checkmentViewModel: CheckmentViewModel = ViewModelProviders.of(context as FragmentActivity).get(
+//                    CheckmentViewModel::class.java)
+//                checkmentViewModel.getselect_boo().observe(context, Observer<Boolean>{ checkment->
+//                    if(checkment==true){
+//                        image_saved.setImageResource(R.drawable.ic_wb_incandescent_active_24dp)
+//                    }
+//                    else{
+//                        image_saved.setImageResource(R.drawable.ic_wb_incandescent_black_24dp)
+//                    }
+//                })
+
                 if(scanResult.selected==true){
-                    image_saved.setImageDrawable(resources.getDrawable(R.drawable.ic_wb_incandescent_active_24dp))
+                    image_saved.setImageResource(R.drawable.ic_wb_incandescent_active_24dp)
                 }
                 else{
-                    image_saved.setImageDrawable(resources.getDrawable(R.drawable.ic_wb_incandescent_black_24dp))
+                    image_saved.setImageResource(R.drawable.ic_wb_incandescent_black_24dp)
                 }
 
                 saved_wifi.setOnClickListener {
