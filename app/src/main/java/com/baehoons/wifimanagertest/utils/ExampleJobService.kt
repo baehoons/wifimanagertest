@@ -9,14 +9,20 @@ import android.content.IntentFilter
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
 import android.util.Log
-import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.baehoons.wifimanagertest.viewmodel.CheckmentViewModel
 
 
-class ExampleJobService :JobService(){
+class ExampleJobService : JobService() {
+    val ACTION_DOWLOAD_FINISHED = "actionDownloadFinished"
     private val TAG = "ExampleJobService"
     private var jobCancelled = false
-
+    private var resultedList = ArrayList<ScanResult>()
+    private lateinit var checkmentViewModel: CheckmentViewModel
     private val wifiManager: WifiManager
         get() = applicationContext?.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
@@ -25,7 +31,7 @@ class ExampleJobService :JobService(){
     private val wifiReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
-            context.unregisterReceiver(this)
+            unregisterReceiver(this)
             Log.d(TAG, "unregisterReceiver")
 
             val success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
@@ -38,6 +44,14 @@ class ExampleJobService :JobService(){
                 Log.d(TAG, "scan failed")
             }
 
+        }
+    }
+
+    private fun update() {
+        for (result in resultList) {
+            if (!resultedList.contains(result)) {
+                resultedList.add(result)
+            }
         }
     }
 
@@ -54,8 +68,11 @@ class ExampleJobService :JobService(){
 
 
     private fun scanWifi() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(wifiReceiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+        Log.d(TAG, "와이파이 초반")
+        registerReceiver(wifiReceiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+        Log.d(TAG, "와이파이 중간")
         wifiManager.startScan()
+        Log.d(TAG, "와이파이 완료")
         //Toast.makeText(this, "Scanning WiFi ...", Toast.LENGTH_SHORT).show()
     }
 
@@ -76,37 +93,50 @@ class ExampleJobService :JobService(){
     private fun scanFailure() {}
 
     override fun onStartJob(params: JobParameters): Boolean {
-        Log.d(TAG,"Job started")
+        Log.d(TAG, "Job started")
         doBackgroundWork(params)
         return true
     }
 
 
     private fun doBackgroundWork(params: JobParameters) {
+        val context = this.applicationContext
+        checkmentViewModel = ViewModelProviders.of(context as FragmentActivity).get(CheckmentViewModel::class.java)
         Thread(Runnable {
-//            for (i in 0..9) {
-//                Log.d(TAG, "run: $i")
-//                if (jobCancelled) {
-//                    return@Runnable
-//                }
-//                try {
-//                    Thread.sleep(1000)
-//                } catch (e: InterruptedException) {
-//                    e.printStackTrace()
-//                }
-//            }
+
             if (!wifiManager.isWifiEnabled) {
                 //Toast.makeText(this, "와이파이가 연결되어 있지 않네요, 연결합니다.", Toast.LENGTH_LONG).show()
+                Log.d(TAG, "와이파이 연결중")
                 wifiManager.isWifiEnabled = true
             }
-            scanWifi()
+            for (i in 0..9) {
+                Log.d(TAG, "run: $i")
+                scanWifi()
+                update()
+                if (jobCancelled) {
+                    return@Runnable
+                }
+                try {
+                    Thread.sleep(1000)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
+            checkmentViewModel.getselect().observeForever()
+            for(result in resultedList){
+
+            }
+
+
             Log.d(TAG, "Job finished")
             jobFinished(params, false)
         }).start()
     }
 
+
     override fun onStopJob(params: JobParameters): Boolean {
 
+        unregisterReceiver(wifiReceiver)
         Log.d(TAG, "Job cancelled before completion");
         jobCancelled = true
         return true

@@ -38,7 +38,10 @@ class ComService : Service() {
             }
 
         }
+
+
     }
+
 
     private fun scanloop(v:Int){
 

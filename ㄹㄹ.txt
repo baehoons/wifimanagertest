@@ -1,0 +1,3 @@
+룸방식 교체 하면서 mvvm으로 교체
+
+livedata 와 viewmodel과 room 의 상관관계
