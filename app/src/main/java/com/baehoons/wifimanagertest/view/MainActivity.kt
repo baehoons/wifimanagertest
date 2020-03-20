@@ -5,6 +5,7 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -12,11 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.baehoons.wifimanagertest.R
 import com.baehoons.wifimanagertest.utils.ExampleJobService
 import com.baehoons.wifimanagertest.utils.setupWithNavController
+import com.baehoons.wifimanagertest.viewmodel.CheckmentViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -30,9 +33,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var jobScheduler: JobScheduler
     private lateinit var jobInfo:JobInfo
     lateinit var toast : Toast
+    private lateinit var checkmentViewModel: CheckmentViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        checkmentViewModel = ViewModelProviders.of(this).get(CheckmentViewModel::class.java)
+        val componentName = ComponentName(applicationContext,ExampleJobService::class.java)
+
 
         val alert_ex = AlertDialog.Builder(this)
         alert_ex
@@ -43,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         //startService(Intent(applicationContext, ComService::class.java))
     }
+
 
     fun startThread(view: View){
         Thread(object : Runnable {
@@ -62,26 +70,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun scheduleJob() {
-        val componentName = ComponentName(this, ExampleJobService::class.java)
-        val info = JobInfo.Builder(123, componentName)
-            .setRequiresCharging(true)
-            .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-            .setPersisted(true)
-            .setPeriodic(15 * 60 * 1000)
-        jobInfo = info.build()
-        jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        checkmentViewModel.getselect().observe(this, Observer<String> { checkment ->
+            var bundle = PersistableBundle()
+            bundle.putString("ssid",checkment)
+            Log.d("sss",checkment.trim())
+            Log.d("sss","gogo")
+            val componentName = ComponentName(this, ExampleJobService::class.java)
+            val info = JobInfo.Builder(123, componentName)
+                .setExtras(bundle)
+                .setRequiresCharging(false)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .setPeriodic(15 * 60 * 1000)
+            jobInfo = info.build()
+            jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
 
-        val resultCode = jobScheduler.schedule(jobInfo)
-        if (resultCode == JobScheduler.RESULT_SUCCESS) {
-            Log.d(TAG, "Job scheduled")
-        } else {
-            Log.d(TAG, "Job scheduling failed")
-        }
+            val resultCode = jobScheduler.schedule(jobInfo)
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                Log.d(TAG, "Job scheduled")
+            } else {
+                Log.d(TAG, "Job scheduling failed")
+            }
+        })
     }
 
     fun cancelJob() {
         jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        jobScheduler.cancel(123)
+        jobScheduler.cancelAll()
         Log.d(TAG, "Job cancelled")
     }
 
@@ -138,6 +153,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
+
         super.onStop()
     }
 

@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -55,17 +56,6 @@ class ExampleJobService : JobService() {
         }
     }
 
-    private fun scanloop(v: Int) {
-
-        do {
-            var tt: Int = 1
-            var st = tt * v
-            scanWifi()
-            Log.d(TAG, "LOADING")
-        } while (st < 0)
-
-    }
-
 
     private fun scanWifi() {
         Log.d(TAG, "와이파이 초반")
@@ -95,13 +85,14 @@ class ExampleJobService : JobService() {
     override fun onStartJob(params: JobParameters): Boolean {
         Log.d(TAG, "Job started")
         doBackgroundWork(params)
-        return true
+        Log.d(TAG, "Job finished")
+        jobFinished(params, false)
+        return false
     }
 
 
     private fun doBackgroundWork(params: JobParameters) {
-        val context = this.applicationContext
-        checkmentViewModel = ViewModelProviders.of(context as FragmentActivity).get(CheckmentViewModel::class.java)
+
         Thread(Runnable {
 
             if (!wifiManager.isWifiEnabled) {
@@ -109,6 +100,7 @@ class ExampleJobService : JobService() {
                 Log.d(TAG, "와이파이 연결중")
                 wifiManager.isWifiEnabled = true
             }
+            var hh:Boolean = false
             for (i in 0..9) {
                 Log.d(TAG, "run: $i")
                 scanWifi()
@@ -122,24 +114,28 @@ class ExampleJobService : JobService() {
                     e.printStackTrace()
                 }
             }
-            checkmentViewModel.getselect().observeForever()
+            var ss = params.extras.getString("ssid")
             for(result in resultedList){
 
+                if(result.SSID==ss){
+                    if(hh==false){
+                        Log.d(TAG, "Connected!!!!!!!!!!!")
+                        hh=true
+                    }
+
+                }
+                Log.d("ssss", result.SSID)
             }
 
-
-            Log.d(TAG, "Job finished")
-            jobFinished(params, false)
         }).start()
     }
 
 
     override fun onStopJob(params: JobParameters): Boolean {
 
-        unregisterReceiver(wifiReceiver)
         Log.d(TAG, "Job cancelled before completion");
         jobCancelled = true
-        return true
+        return false
     }
 
 
