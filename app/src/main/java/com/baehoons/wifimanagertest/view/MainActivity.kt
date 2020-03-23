@@ -16,11 +16,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.work.*
 import com.baehoons.wifimanagertest.R
 import com.baehoons.wifimanagertest.utils.ExampleJobService
+import com.baehoons.wifimanagertest.utils.ScanWorker
 import com.baehoons.wifimanagertest.utils.setupWithNavController
 import com.baehoons.wifimanagertest.viewmodel.CheckmentViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var jobInfo:JobInfo
     lateinit var toast : Toast
     private lateinit var checkmentViewModel: CheckmentViewModel
+    private lateinit var workId : UUID
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -46,27 +51,50 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         } // Else, need to wait for onRestoreInstanceState
-        scheduleJob()
+        //scheduleJob()
+        startSimpleWork()
+        observeWorkStatus()
 
-        //startService(Intent(applicationContext, ComService::class.java))
+//        var boo:Boolean = intent.getBooleanExtra("boo",false)
+//        if(boo==true){
+//            Log.d("boo","connected!!")
+//        }
     }
 
+    private fun startSimpleWork() {
+        val workRequest = createWorkRequest()
+        WorkManager.getInstance().enqueue(workRequest)
+        workId = workRequest.id
+    }
 
-    fun startThread(view: View){
-        Thread(object : Runnable {
-            override fun run() {
-                for(i in 0..99){
-                    try {
-                        mCount++
-                    } catch (e:InterruptedException){
-                        break
-                    }
-                    Log.d("my thread","스레드 동작중"+mCount)
-                }
-            }
+    private fun createWorkRequest() : WorkRequest {
+        //create input data
+        val inputData = workDataOf(Pair("INPUT_KEY", "some_input"))
 
-        })
+        //create constraint conditions
+        val constraint = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+            .setRequiresBatteryNotLow(true)
+            .setRequiresStorageNotLow(true)
+            .setRequiresCharging(false)
+            .build()
 
+        //init WorkRequest using WorkRequest class or some Builder for single or periodic work
+        val workRequest = OneTimeWorkRequestBuilder<ScanWorker>()
+            .setInputData(inputData)
+            .setConstraints(constraint)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.SECONDS) //retry work conditions
+            .setInitialDelay(3, TimeUnit.SECONDS)
+            .build()
+
+        return workRequest
+    }
+
+    private fun observeWorkStatus() {
+        WorkManager.getInstance().getWorkInfoByIdLiveData(workId)
+            .observe(this, Observer { workInfo ->
+                //do some action based on workInfo state
+            })
     }
 
     fun scheduleJob() {
@@ -162,8 +190,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        Log.d("JobService","스탑댐")
-        cancelJob()
+        Log.d("JobService","종료됌")
+        //cancelJob()
         super.onDestroy()
     }
 }
