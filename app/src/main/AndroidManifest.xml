@@ -30,7 +30,11 @@
         <service
             android:name = ".utils.ExampleJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
+        <activity
+            android:name=".utils.NotificationActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true">
+        </activity>
 
     </application>
 

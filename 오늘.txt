@@ -1,0 +1,11 @@
+오늘 달릴거
+
+jobservice 리턴해 room db 적용
+또는 repository로 따로 빼서 jobservice 자체에서 적용시키기
+
+경과시간 별 출근 퇴근 분류 (notification 추가)
+
+mvvm 적용시켜서 influx 참고   
+
+notification과 boolean에서 왜 적용이 안되는지... (동시에 떠버림, 순차가 이상함)
+notification 확인 눌렀을때(구현해야) 데이터 들어가게끔 (구현해야함)

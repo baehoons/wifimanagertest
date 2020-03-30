@@ -131,14 +131,17 @@ class ExampleJobService : JobService() {
 
             for(result in resultedList){
 
-                if(result.SSID==ss){
-                    if(hh==false){
-                        Log.d(TAG, "Connected!!!!!!!!!!!")
-                        hh=true
-                    }
+                if(ss!=null){
+                    if(result.SSID==ss){
+                        if(hh==false){
+                            Log.d(TAG, "Connected!!!!!!!!!!!")
+                            hh=true
+                        }
 
-                    Log.d("ssss", result.SSID)
+                        Log.d("ssss", result.SSID)
+                    }
                 }
+
 
             }
 
