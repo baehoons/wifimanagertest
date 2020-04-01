@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
         } // Else, need to wait for onRestoreInstanceState
         //scheduleJob()
         startSimpleWork()
-        //observeWorkStatus()
         cancelWork()
 //        var boo:Boolean = intent.getBooleanExtra("boo",false)
 //        if(boo==true){
@@ -70,103 +69,123 @@ class MainActivity : AppCompatActivity() {
     private fun startSimpleWork() {
         checkmentViewModel.getselect().observe(this, Observer<String> { checkment ->
             checkmentViewModel.getstart().observe(this, Observer<String> { checkmente ->
-                //create input data
-                val inputData = workDataOf(
-                    Pair("ssid", checkment),
-                    Pair(NOTIFICATION_ID, 0),
-                    Pair("noti", checkmente)
-                )
+                checkmentViewModel.getend().observe(this, Observer<String> { checkmentes ->
+                    //create input data
+                    val inputData = workDataOf(
+                        Pair("ssid", checkment),
+                        Pair(NOTIFICATION_ID, 0),
+                        Pair("noti", checkmente),
+                        Pair("noti_e",checkmentes)
+                    )
 
-                //create constraint conditions
-                val constraint = Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-                    .setRequiresBatteryNotLow(true)
-                    .setRequiresStorageNotLow(true)
-                    .setRequiresCharging(false)
-                    .build()
+                    //create constraint conditions
+                    val constraint = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                        .setRequiresBatteryNotLow(true)
+                        .setRequiresStorageNotLow(true)
+                        .setRequiresCharging(false)
+                        .build()
 
-                //init WorkRequest using WorkRequest class or some Builder for single or periodic work
-                val workRequest = OneTimeWorkRequestBuilder<ScanWorker>()
-                    .setInputData(inputData)
-                    .build()
+                    //init WorkRequest using WorkRequest class or some Builder for single or periodic work
+                    val workRequest = OneTimeWorkRequestBuilder<ScanWorker>()
+                        .setInputData(inputData)
+                        .setInitialDelay(3, TimeUnit.SECONDS)
+                        .build()
 
 //            .setConstraints(constraint)
 //            .setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.SECONDS) //retry work conditions
 //            .setInitialDelay(3, TimeUnit.SECONDS)
 
 
+                    WorkManager.getInstance()
+                        .beginUniqueWork(NOTIFICATION_WORK, REPLACE, workRequest)
+                        .enqueue()
+                    workId = workRequest.id
 
-
-                WorkManager.getInstance().beginUniqueWork(NOTIFICATION_WORK, REPLACE, workRequest)
-                    .enqueue()
-                workId = workRequest.id
-
-                WorkManager.getInstance().getWorkInfoByIdLiveData(workId)
-                    .observe(this, Observer { workInfo ->
-                        if (workInfo != null) {
-                            if (workInfo.state == WorkInfo.State.ENQUEUED) {
-                                // Show the work state in text view
-                                Toast.makeText(this, "WorkInfo.State.ENQUEUED.", Toast.LENGTH_LONG)
-                                    .show()
-                                Log.d("me", "중간1")
-                            } else if (workInfo.state == WorkInfo.State.BLOCKED) {
-                                Toast.makeText(this, "WorkInfo.State.BLOCKED.", Toast.LENGTH_LONG)
-                                    .show()
-                                Log.d("me", "중간2")
-                            } else if (workInfo.state == WorkInfo.State.RUNNING) {
-                                Toast.makeText(this, "WorkInfo.State.RUNNING.", Toast.LENGTH_LONG)
-                                    .show()
-                                Log.d("me", "중간3")
-                            }
-
-                        }
-
-                        // When work finished
-                        if (workInfo != null && workInfo.state.isFinished) {
-                            if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                                Toast.makeText(this, "WorkInfo.State.SUCCEEDED.", Toast.LENGTH_LONG)
-                                    .show()
-                                Log.d("me", "끝")
-                                // Get the output data
-//                            val successOutputData = workInfo.outputData
-//                            Log.d("me", successOutputData.toString())
-//                            val hh = successOutputData.getBoolean("end", false)
-//                            Log.d("me", hh.toString())
-//                            checkmentViewModel.getend()
-//                                .observe(this, Observer<String> { checkment1 ->
-//                                    if (checkment1 == null) {
-//                                        if (hh == true) {
-//                                            checkmentViewModel.setend(timenow(), true)
-//                                            Log.d("me", "중간")
-//                                        }
-//
-//
-//                                    }
-//                                })
-
-                                val successOutputData = workInfo.outputData
-                                Log.d("me", successOutputData.toString())
-                                val hh = successOutputData.getBoolean("start", false)
-                                Log.d("me", hh.toString())
-
-                                if (checkmente == null) {
-                                    if(hh==true){
-                                        checkmentViewModel.setstart(timenow(), true)
-                                    }
+                    WorkManager.getInstance().getWorkInfoByIdLiveData(workId)
+                        .observe(this, Observer { workInfo ->
+                            if (workInfo != null) {
+                                if (workInfo.state == WorkInfo.State.ENQUEUED) {
+                                    // Show the work state in text view
+//                                    Toast.makeText(
+//                                        this,
+//                                        "WorkInfo.State.ENQUEUED.",
+//                                        Toast.LENGTH_LONG
+//                                    )
+//                                        .show()
+                                    Log.d("me", "중간1")
+                                } else if (workInfo.state == WorkInfo.State.BLOCKED) {
+//                                    Toast.makeText(
+//                                        this,
+//                                        "WorkInfo.State.BLOCKED.",
+//                                        Toast.LENGTH_LONG
+//                                    )
+//                                        .show()
+                                    Log.d("me", "중간2")
+                                } else if (workInfo.state == WorkInfo.State.RUNNING) {
+//                                    Toast.makeText(
+//                                        this,
+//                                        "WorkInfo.State.RUNNING.",
+//                                        Toast.LENGTH_LONG
+//                                    )
+//                                        .show()
+                                    Log.d("me", "중간3")
                                 }
 
-
-                            } else if (workInfo.state == WorkInfo.State.FAILED) {
-                                Toast.makeText(this, "WorkInfo.State.FAILED.", Toast.LENGTH_LONG)
-                                    .show()
-                                Log.d("me", "실패")
-                            } else if (workInfo.state == WorkInfo.State.CANCELLED) {
-                                Toast.makeText(this, "WorkInfo.State.CANCELLED.", Toast.LENGTH_LONG)
-                                    .show()
-                                Log.d("me", "캔슬")
                             }
-                        }
-                    })
+
+                            // When work finished
+                            if (workInfo != null && workInfo.state.isFinished) {
+                                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+//                                    Toast.makeText(
+//                                        this,
+//                                        "WorkInfo.State.SUCCEEDED.",
+//                                        Toast.LENGTH_LONG
+//                                    )
+//                                        .show()
+                                    Log.d("me", "끝")
+                                    // Get the output data
+                                    val successOutputData = workInfo.outputData
+                                    Log.d("me", successOutputData.toString())
+                                    val hh = successOutputData.getBoolean("start", false)
+                                    var hh_e = successOutputData.getBoolean("end",true)
+                                    Log.d("me", hh.toString())
+
+                                    if (checkmente == null) {
+                                        if (hh == true) {
+                                            checkmentViewModel.setstart(timenow(), true)
+                                        }
+                                    }
+
+                                    if(checkmentes==null){
+                                        if(checkmente != null){
+                                            if(hh_e==false){
+                                                checkmentViewModel.setend(timenow(), true)
+                                            }
+                                        }
+                                    }
+
+
+                                } else if (workInfo.state == WorkInfo.State.FAILED) {
+//                                    Toast.makeText(
+//                                        this,
+//                                        "WorkInfo.State.FAILED.",
+//                                        Toast.LENGTH_LONG
+//                                    )
+//                                        .show()
+                                    Log.d("me", "실패")
+                                } else if (workInfo.state == WorkInfo.State.CANCELLED) {
+//                                    Toast.makeText(
+//                                        this,
+//                                        "WorkInfo.State.CANCELLED.",
+//                                        Toast.LENGTH_LONG
+//                                    )
+//                                        .show()
+                                    Log.d("me", "캔슬")
+                                }
+                            }
+                        })
+                })
             })
         })
     }

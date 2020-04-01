@@ -31,12 +31,14 @@ class ScanWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
     private var resultedList = ArrayList<ScanResult>()
     private var hh: Boolean = false
     private var hh_s: Boolean = false
+    private var hh_e: Boolean = true
     private lateinit var checkmentViewModel: CheckmentViewModel
     private val wifiManager: WifiManager
         get() = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
     private val ss = inputData.getString("ssid")
     private val noti = inputData.getString("noti")
+    private val noti_e = inputData.getString("noti_e")
     private var resultList = ArrayList<ScanResult>()
 
     private val wifiReceiver = object : BroadcastReceiver() {
@@ -125,6 +127,7 @@ class ScanWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
     private fun createOutputData_s(): Data {
         return Data.Builder()
             .putBoolean("start", hh_s)
+            .putBoolean("end",hh)
             .build()
     }
 
@@ -186,7 +189,6 @@ class ScanWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
             wifiManager.isWifiEnabled = true
         }
 
-
         scanWifi()
         update()
         try {
@@ -201,7 +203,7 @@ class ScanWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()
 
         //Log.d("ssss", hh.toString())
-        //Log.d("ssss", noti)
+        Log.d("hhhh", hh.toString())
         if(noti == null){
             Log.d("ssss",hh_s.toString())
             if(hh_s==false){
@@ -212,6 +214,15 @@ class ScanWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
             return Result.success(createOutputData_s())
         }
 
+        else if(noti != null){
+            if(noti_e == null){
+                if(hh==false){
+                    sendNotification(id)
+                }
+
+            }
+            return Result.success(createOutputData_s())
+        }
         else{
 
             return Result.success(createOutputData_s())
