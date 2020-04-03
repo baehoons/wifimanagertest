@@ -175,6 +175,50 @@ class ScanWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         notificationManager.notify(id,notification.build())
     }
 
+    private fun sendNotification2(id:Int){
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.putExtra(NOTIFICATION_ID, id)
+
+        val notificationManager =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val bitmap = applicationContext.vectorToBitmap(R.drawable.ic_camera_front_black_24dp)
+        val titleNotification = "출퇴근 관리"
+        val subtitleNotification = "퇴근 하시겠습니까?"
+        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
+        val pendingIntent_c = NotificationActivity.getDismissIntent(id, applicationContext)
+        val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL)
+            .setLargeIcon(bitmap).setSmallIcon(R.drawable.ic_camera_front_black_24dp)
+            .setContentTitle(titleNotification).setContentText(subtitleNotification)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setContentIntent(pendingIntent)
+            //.addAction(R.drawable.ic_check_circle_black_24dp,"확인",pendingIntent)
+            .setAutoCancel(true)
+            .addAction(R.drawable.ic_close_black_24dp,"취소",pendingIntent_c)
+        notification.priority = NotificationCompat.PRIORITY_MAX
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notification.setChannelId(NOTIFICATION_CHANNEL)
+
+            val ringtoneManager = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
+
+            val channel =
+                NotificationChannel(NOTIFICATION_CHANNEL, NOTIFICATION_NAME, NotificationManager.IMPORTANCE_HIGH)
+
+            channel.enableLights(true)
+            channel.lightColor = Color.RED
+            channel.enableVibration(true)
+            channel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+            channel.setSound(ringtoneManager, audioAttributes)
+            notificationManager.createNotificationChannel(channel)
+            //notificationManager.cancel(intent.getIntExtra(NOTIFICATION_ID,-1))
+        }
+        notificationManager.notify(id,notification.build())
+    }
+
     companion object {
         const val NOTIFICATION_ID = "appName_notification_id"
         const val NOTIFICATION_NAME = "appName"
@@ -217,7 +261,7 @@ class ScanWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         else if(noti != null){
             if(noti_e == null){
                 if(hh==false){
-                    sendNotification(id)
+                    sendNotification2(id)
                 }
 
             }

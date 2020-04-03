@@ -94,8 +94,7 @@ class MainActivity : AppCompatActivity() {
 
 //            .setConstraints(constraint)
 //            .setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.SECONDS) //retry work conditions
-//            .setInitialDelay(3, TimeUnit.SECONDS)
-
+//            .setInitialDelay(3, TimeUnit.SECONDS)\
 
                     WorkManager.getInstance()
                         .beginUniqueWork(NOTIFICATION_WORK, REPLACE, workRequest)
@@ -161,6 +160,8 @@ class MainActivity : AppCompatActivity() {
                                         if(checkmente != null){
                                             if(hh_e==false){
                                                 checkmentViewModel.setend(timenow(), true)
+
+
                                             }
                                         }
                                     }
